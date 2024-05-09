@@ -16,7 +16,9 @@ end
 get("/process_umbrella") do
   @user_location = params.fetch("user_loc")
 
-  gmaps_url = "https://maps.googleapis.com/maps/api/geocode/json?address=Merchandise%20Mart%20Chicago&key=AIzaSyDKz4Y3bvrTsWpPRNn9ab55OkmcwZxLOHI"
+  url_encoded_string = @user_location.gsub(" ", "+")
+
+  gmaps_url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{url_encoded_string}&key=AIzaSyDKz4Y3bvrTsWpPRNn9ab55OkmcwZxLOHI"
 
   @raw_response = HTTP.get(gmaps_url).to_s
 
