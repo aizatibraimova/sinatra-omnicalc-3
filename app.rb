@@ -29,5 +29,31 @@ get("/process_umbrella") do
   @latitude = @loc_hash.fetch("lat")
   @longitude = @loc_hash.fetch("lng")
 
+
+require "http"
+pirate_weather_api_key =  ENV.fetch("PIRATE_WEATHER_KEY")
+# Assemble the full URL string by adding the first part, the API token, and the last part together
+pirate_weather_url = "https://api.pirateweather.net/forecast/#{pirate_weather_api_key}/#{@latitude},#{@longitude}"
+
+# Place a GET request to the URL
+raw_pirate_weather_data = HTTP.get(pirate_weather_url)
+
+require "json"
+
+parsed_pirate_weather_data = JSON.parse(raw_pirate_weather_data)
+
+@currently_hash = parsed_pirate_weather_data.fetch("currently")
+
+@current_temp = @currently_hash.fetch("temperature")
+
+@current_summary = @currently_hash.fetch("summary")
+
+@rain_chance = @currently_hash.fetch("precipProbability")
+
+precip_prob_threshold = 0.10
+
+any_precipitation = false
+
+
   erb(:umbrella_result)
 end

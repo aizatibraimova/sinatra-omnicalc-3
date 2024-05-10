@@ -10,6 +10,20 @@
 
   <dt>Longitude</dt>
   <dd><%= @longitude %></dd>
+
+  <dt>Current temperature</dt>
+  <dd><%= @current_temp %></dd>
+
+  <dt>Current summary</dt>
+  <dd><%= @current_summary %></dd>
+
+   <dt>Umbrella?</dt>
+  <dd><% if @any_precipitation || @current_summary.downcase.include?("rain") %> 
+  
+      You might want to take an umbrella!
+  <% else %>
+   You probably won't need an umbrella.
+  <% end %></dd>
 </dl>
 
 <a href="/umbrella">Go back </a>
